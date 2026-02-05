@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Prático - Gerenciador de Tarefas</title>
+    <style>
+        /* * CRITÉRIO B: Uso de CSS
+         * Estilização completa com suporte a Temas (Claro/Escuro).
+         */
+        :root {
+            /* Tema Claro (Padrão) */
+            --primary-color: #4a90e2;
+            --secondary-color: #357abd;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --text-secondary: #666;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --hover-bg: #f9f9f9;
+        }
+
+        /* Tema Escuro */
+        [data-theme="dark"] {
+            --primary-color: #5da8ff;
+            --secondary-color: #357abd;
+            --background-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --text-secondary: #aaa;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+            --hover-bg: #383838;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transição suave entre temas */
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Botão de Tema */
+        .theme-toggle-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: var(--hover-bg);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button#add-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        button#add-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .task-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 1.2rem;
+            border-radius: 4px;
+        }
+
+        .delete-btn:hover {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .empty-message {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* Responsividade */
+        @media (max-width: 400px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Alternar Tema">🌙</button>
+        
+        <header>
+            <h1>Minhas Tarefas</h1>
+            <p>Organize seu dia com facilidade</p>
+        </header>
+
+        <div class="input-group">
+            <input type="text" id="task-input" placeholder="Adicione uma nova tarefa..." aria-label="Nova tarefa">
+            <button id="add-btn">Adicionar</button>
+        </div>
+
+        <ul id="task-list">
+            <!-- As tarefas serão inseridas aqui via JavaScript -->
+        </ul>
+        <p id="empty-msg" class="empty-message">Nenhuma tarefa pendente.</p>
+    </div>
+
+    <script>
+        /* * CRITÉRIO B e C: Uso de JavaScript
+         * Manipulação do DOM, Lógica funcional e Gerenciamento de Tema.
+         */
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskInput = document.getElementById('task-input');
+            const addBtn = document.getElementById('add-btn');
+            const taskList = document.getElementById('task-list');
+            const emptyMsg = document.getElementById('empty-msg');
+            const themeToggleBtn = document.getElementById('theme-toggle');
+
+            // --- Lógica de Tema (Dark/Light Mode) ---
+            
+            // Verifica preferência salva
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeIcon(savedTheme);
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+
+            function updateThemeIcon(theme) {
+                themeToggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            // --- Lógica de Tarefas ---
+
+            // Carregar tarefas salvas ao iniciar
+            loadTasks();
+
+            // Evento de clique no botão adicionar
+            addBtn.addEventListener('click', addTask);
+
+            // Evento de pressionar Enter no input
+            taskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+
+            function addTask() {
+                const taskText = taskInput.value.trim();
+
+                if (taskText === '') {
+                    taskInput.style.borderColor = 'var(--danger-color)';
+                    setTimeout(() => taskInput.style.borderColor = 'var(--border-color)', 1000);
+                    return;
+                }
+
+                createTaskElement(taskText);
+                saveTaskToLocalStorage(taskText);
+
+                taskInput.value = '';
+                checkEmptyList();
+            }
+
+            function createTaskElement(text, isCompleted = false) {
+                const li = document.createElement('li');
+                if (isCompleted) li.classList.add('completed');
+
+                const taskContent = document.createElement('div');
+                taskContent.classList.add('task-content');
+                
+                const span = document.createElement('span');
+                span.textContent = text;
+                
+                taskContent.appendChild(span);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.innerHTML = '&times;';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.title = "Excluir tarefa";
+
+                // Evento: Marcar como concluída
+                taskContent.addEventListener('click', () => {
+                    li.classList.toggle('completed');
+                    updateLocalStorage();
+                });
+
+                // Evento: Deletar tarefa
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    li.remove();
+                    updateLocalStorage();
+                    checkEmptyList();
+                });
+
+                li.appendChild(taskContent);
+                li.appendChild(deleteBtn);
+                taskList.appendChild(li);
+                
+                checkEmptyList();
+            }
+
+            function checkEmptyList() {
+                if (taskList.children.length === 0) {
+                    emptyMsg.style.display = 'block';
+                } else {
+                    emptyMsg.style.display = 'none';
+                }
+            }
+
+            // --- Persistência de Dados (LocalStorage) ---
+
+            function saveTaskToLocalStorage(text) {
+                let tasks = getTasksFromStorage();
+                tasks.push({ text: text, completed: false });
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+
+            function getTasksFromStorage() {
+                let tasks;
+                if (localStorage.getItem('tasks') === null) {
+                    tasks = [];
+                } else {
+                    tasks = JSON.parse(localStorage.getItem('tasks'));
+                }
+                return tasks;
+            }
+
+            function loadTasks() {
+                let tasks = getTasksFromStorage();
+                tasks.forEach(task => {
+                    createTaskElement(task.text, task.completed);
+                });
+                checkEmptyList();
+            }
+
+            function updateLocalStorage() {
+                const tasks = [];
+                document.querySelectorAll('#task-list li').forEach(li => {
+                    tasks.push({
+                        text: li.querySelector('span').textContent,
+                        completed: li.classList.contains('completed')
+                    });
+                });
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+        });
+    </script>
+</body>
+</html>
