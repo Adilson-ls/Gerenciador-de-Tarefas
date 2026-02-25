@@ -1,0 +1,309 @@
+ /* Variáveis de cores - Tema Claro */
+        :root {
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --bg-color: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            --danger-color: #EF4444;
+            --danger-hover: #DC2626;
+            --success-color: #10B981;
+            --border-color: #E5E7EB;
+            --item-bg: #F9FAFB;
+            --item-hover-shadow: rgba(0, 0, 0, 0.1);
+            --group-header-bg: #EEF2FF;
+            --group-header-text: #4338CA;
+        }
+
+        /* Variáveis de cores - Tema Escuro */
+        body.dark-mode {
+            --bg-color: #111827;
+            --card-bg: #1F2937;
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --border-color: #374151;
+            --item-bg: #374151;
+            --item-hover-shadow: rgba(0, 0, 0, 0.4);
+            --group-header-bg: #374151;
+            --group-header-text: #818CF8;
+        }
+
+        /* Reset e tipografia */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Contentor principal */
+        .app-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 100vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            transition: background-color 0.3s;
+        }
+
+        /* Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        button.btn-theme {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        button.btn-theme:hover {
+            background-color: var(--item-bg);
+        }
+
+        /* Área de input */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 2;
+            min-width: 200px;
+            padding: 12px 15px;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+            outline: none;
+        }
+
+        input[type="date"] {
+            flex: 1;
+            min-width: 140px;
+            max-width: 140px;
+            padding: 12px 10px;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: var(--primary-color);
+        }
+
+        body.dark-mode input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+        }
+
+        button.btn-add {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            min-width: 100px;
+        }
+
+        button.btn-add:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Grupos de Datas */
+        .date-group {
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .date-header {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--group-header-text);
+            background-color: var(--group-header-bg);
+            padding: 6px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Listas de Tarefas */
+        ul.task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Secção de Concluídas */
+        .completed-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+            display: none;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        /* Itens da lista */
+        li.task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--item-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        li.task-item:hover {
+            box-shadow: 0 4px 6px -1px var(--item-hover-shadow);
+        }
+
+        /* Estilização para concluídas */
+        #completedList li.task-item {
+            opacity: 0.6;
+            background-color: transparent;
+        }
+
+        #completedList li.task-item .task-text,
+        #completedList li.task-item .task-date {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .task-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Checkbox */
+        .check-circle {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.2s;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        #completedList li.task-item .check-circle {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        #completedList li.task-item .check-circle::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 3px;
+            width: 4px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .task-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .task-text {
+            font-size: 16px;
+            word-break: break-word;
+            transition: color 0.3s;
+        }
+
+        .task-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+
+        /* Botões */
+        button.btn-delete {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button.btn-delete:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-hover);
+        }
+
+        .empty-message {
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 20px;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
